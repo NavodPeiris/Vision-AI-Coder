@@ -1,0 +1,111 @@
+{
+  "name": "vision-ai-coder",
+  "displayName": "Vision AI Coder",
+  "description": "Offline On-Device AI Assistant and Coder with Visual Question Answering",
+  "publisher": "Navod Peiris",
+  "version": "0.0.1",
+  "engines": {
+    "vscode": "^1.64.0"
+  },
+  "license": "MIT",
+  "categories": [
+    "Machine Learning",
+    "Programming Languages",
+    "Chat",
+    "AI"
+  ],
+  "keywords": [
+    "code",
+    "assistant",
+    "ai",
+    "llm",
+    "llama",
+    "tinyllama",
+    "llama.cpp",
+    "chat",
+    "gpt",
+    "completion",
+    "copilot",
+    "llava",
+    "vision",
+    "gemini"
+  ],
+  "activationEvents": [
+    "onCommand:visionAICoder.helloWorld",
+    "onView:left-panel-webview"
+  ],
+  "main": "./dist/extension.js",
+  "contributes": {
+    "commands": [
+      {
+        "command": "visionAICoder.helloWorld",
+        "title": "Hello World"
+      }
+    ],
+    "viewsContainers": {
+      "activitybar": [
+        {
+          "id": "webview",
+          "title": "Example for webview",
+          "icon": "./assets/sidebar-icon.png"
+        }
+      ]
+    },
+    "views": {
+      "webview": [
+        {
+          "type": "webview",
+          "id": "left-panel-webview",
+          "name": "Webview",
+          "icon": "src/assets/sidebar-icon.png"
+        }
+      ]
+    }
+  },
+  "scripts": {
+    "compile": "npm run tsc -p ./",
+    "watch": "tsc -watch -p ./ && npm run compile",
+    "vscode:package": "vsce package",
+    "webpack": "rm -rf ./dist/* && webpack --mode development",
+    "package": "rm -rf *.vsix && npm run webpack && vsce package"
+  },
+  "dependencies": {
+    "@emotion/react": "^11.11.4",
+    "@emotion/styled": "^11.11.5",
+    "@minchat/react-chat-ui": "^0.16.2",
+    "@mui/icons-material": "^5.15.20",
+    "@mui/material": "^5.15.20",
+    "@types/glob": "^8.1.0",
+    "@types/mocha": "^10.0.6",
+    "@types/node": "^20.14.2",
+    "@types/react-dom": "^18.3.0",
+    "@types/vscode": "^1.90.0",
+    "@types/vscode-webview": "^1.57.5",
+    "@typescript-eslint/eslint-plugin": "^7.13.0",
+    "@typescript-eslint/parser": "^7.13.0",
+    "@vscode/test-electron": "^2.4.0",
+    "@xenova/transformers": "^2.17.2",
+    "axios": "^1.7.2",
+    "dotenv-webpack": "^8.1.0",
+    "eslint": "^8.56.0",
+    "glob": "^10.4.1",
+    "mocha": "^10.4.0",
+    "modelfusion": "^0.137.0",
+    "module-alias": "^2.2.3",
+    "path": "^0.12.7",
+    "react": "^18.3.1",
+    "react-dom": "^18.3.1",
+    "sharp": "^0.33.4",
+    "ts-loader": "^9.5.1",
+    "typescript": "^5.4.5",
+    "url": "^0.11.3",
+    "webpack": "^5.92.0",
+    "webpack-cli": "^5.1.4"
+  },
+  "_moduleAliases": {
+    "utils": "dist/utils",
+    "providers": "dist/providers",
+    "components": "dist/components",
+    "constant": "dist/constant.js"
+  }
+}
