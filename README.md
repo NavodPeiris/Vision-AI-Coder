@@ -4,12 +4,9 @@
 
 <p align="center">
     <a href="./LICENSE"><img src="https://img.shields.io/github/license/NavodPeiris/Vision-AI-Coder"></a>
-    <a href="https://github.com/NavodPeiris/Vision-AI-Coder/releases"><img src="https://img.shields.io/github/v/release/NavodPeiris/Vision-AI-Coder?color=ffa"></a>
     <a href="support os"><img src="https://img.shields.io/badge/os-linux%2C%20win%2C%20mac-pink.svg"></a>
     <a href="https://github.com/Navodplayer1/speechlib/issues"><img src="https://img.shields.io/github/issues/NavodPeiris/Vision-AI-Coder?color=9cc"></a>
     <a href="https://github.com/NavodPeiris/Vision-AI-Coder/stargazers"><img src="https://img.shields.io/github/stars/NavodPeiris/Vision-AI-Coder?color=ccf"></a>
-    <a href="https://marketplace.visualstudio.com/items?itemName=NavodPeiris.vision-ai-coder"><img src="https://img.shields.io/visual-studio-marketplace/d/navodpeiris.vision-ai-coder
-    "></a>
     
 </p>
 
