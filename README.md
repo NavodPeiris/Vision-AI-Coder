@@ -31,11 +31,11 @@ you can run inference on a cpu with only 8gb of ram.
 Note: provide absolute filepath for image and filepath should not contain spaces
 
 <p align="center">
-  <img src="start1.png" />
+  <img src="step1.png" />
 </p>
 
 <p align="center">
-  <img src="start2.png" />
+  <img src="step2.png" />
 </p>
 
 #### Models Used:
