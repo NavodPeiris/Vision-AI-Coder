@@ -8,7 +8,8 @@
     <a href="support os"><img src="https://img.shields.io/badge/os-linux%2C%20win%2C%20mac-pink.svg"></a>
     <a href="https://github.com/Navodplayer1/speechlib/issues"><img src="https://img.shields.io/github/issues/NavodPeiris/Vision-AI-Coder?color=9cc"></a>
     <a href="https://github.com/NavodPeiris/Vision-AI-Coder/stargazers"><img src="https://img.shields.io/github/stars/NavodPeiris/Vision-AI-Coder?color=ccf"></a>
-    <a href="https://pypi.org/project/speechlib/"><img src="https://static.pepy.tech/badge/speechlib"></a>
+    <a href="https://marketplace.visualstudio.com/items?itemName=NavodPeiris.vision-ai-coder"><img src="https://img.shields.io/visual-studio-marketplace/d/navodpeiris.vision-ai-coder
+    "></a>
     
 </p>
 
@@ -19,6 +20,23 @@ Vision AI Coder is a vscode extension that allow developers to download and run 
 this extension uses llamafile for running GGUF formated models which are fast and supports more consumer grade hardware.
 
 you can run inference on a cpu with only 8gb of ram.
+
+#### How to Use:
+
+1. Click on the extension icon
+2. Click download model button (around 5gb will be downloaded)
+3. Click start server button
+4. you can ask any question and optionally can provide an image
+
+Note: provide absolute filepath for image and filepath should not contain spaces
+
+<p align="center">
+  <img src="start1.png" />
+</p>
+
+<p align="center">
+  <img src="start2.png" />
+</p>
 
 #### Models Used:
 
