@@ -6,5 +6,6 @@ node_modules
 dir
 src/*.gguf
 src/*.exe
-.vscode/
+script/*.gguf
+script/*.exe
 .env

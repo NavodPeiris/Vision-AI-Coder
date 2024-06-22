@@ -11,7 +11,7 @@
   "bugs": {
     "url": "https://github.com/NavodPeiris/Vision-AI-Coder/issues"
   },
-  "version": "0.0.4",
+  "version": "0.0.12",
   "engines": {
     "vscode": "^1.64.0"
   },
@@ -72,11 +72,10 @@
   },
   "scripts": {
     "prepublish": "npm run compile",
-    "compile": "npm run tsc -p ./",
+    "compile": "tsc -p ./",
     "watch": "tsc -watch -p ./ && npm run compile",
-    "vscode:package": "vsce package",
-    "webpack": "rm -rf ./dist/* && webpack --mode development",
-    "package": "rm -rf *.vsix && npm run webpack && vsce package"
+    "webpack": "webpack --mode production",
+    "package": "webpack --mode production && vsce package"
   },
   "dependencies": {
     "@emotion/react": "^11.11.4",
@@ -98,12 +97,14 @@
     "dotenv-webpack": "^8.1.0",
     "eslint": "^8.56.0",
     "glob": "^10.4.1",
+    "image-type": "^5.2.0",
     "mocha": "^10.4.0",
     "modelfusion": "^0.137.0",
     "module-alias": "^2.2.3",
     "path": "^0.12.7",
     "react": "^18.3.1",
     "react-dom": "^18.3.1",
+    "read-chunk": "^4.0.3",
     "sharp": "^0.33.4",
     "ts-loader": "^9.5.1",
     "typescript": "^5.4.5",

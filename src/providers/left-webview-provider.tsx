@@ -2,18 +2,41 @@ import { WebviewViewProvider, WebviewView, Webview, Uri, EventEmitter, window, E
 import { Utils } from "utils";
 import LeftPanel from 'components/LeftPanel';
 import * as ReactDOMServer from "react-dom/server";
+import * as vscode from 'vscode';
 
 async function codeLlama(instruction: string, port: number, imagePath: string, sendText: (text: string) => void) {
     const { llamacpp, streamText } = await import('modelfusion');
     const fs = await import('fs');
+    const {readChunk} = await import('read-chunk');
+    const imageType = await import('image-type');
+    const {minimumBytes} = await import('image-type');
+
     var image: any;
     var textStream: any;
-    try{
+    
+    try {
+        const buffer = await readChunk(imagePath, {length: minimumBytes});
+        const fileType = await imageType.default(buffer)
+        if (!fileType || !fileType.mime.startsWith('image/')) {
+            vscode.window.showErrorMessage('The selected file is not a valid image. please select an image file.');
+            return;
+        }
+    } catch (err) {
+        console.log(err);
+        vscode.window.showErrorMessage('An error occurred while reading the file. please check if the file path is correct and make sure absolute file path is given. make sure not to include any quotation marks.');
+        return;
+    }
+
+    try {
         image = fs.readFileSync(imagePath);
+    } catch (err) {
+        console.log(err);
+        vscode.window.showErrorMessage('An error occurred while reading the file. please check if the file path is correct and make sure absolute file path is given. make sure not to include any quotation marks.');
+        return;
     }
-    catch(err){
-        console.log(err)
-    }
+
+    // Your code to handle the image goes here
+    console.log('The file is a valid image.');
     
     const api = llamacpp.Api({
         baseUrl: {
@@ -70,18 +93,25 @@ async function codeLlama(instruction: string, port: number, imagePath: string, s
 }
 
 async function downloadModel(context: ExtensionContext) {
-    const task = new Task(
-        { type: 'shell' },
-        TaskScope.Workspace,
-        'downloading model',
-        'setup',
-        new ShellExecution('node' + ' ' + context.asAbsolutePath(`src/index.js`) + ' ' + context.asAbsolutePath(`src`))
-    );
-    task.presentationOptions = {
-        reveal: TaskRevealKind.Silent,
-    };
+    
+    try {
+        // Download the model
+        const downloadModelTask = new Task(
+            { type: 'shell' },
+            TaskScope.Workspace,
+            'downloading model',
+            'setup',
+            new ShellExecution('node' + ' ' + context.asAbsolutePath(`script/index.js`) + ' ' + context.asAbsolutePath(`script`))
+        );
+        downloadModelTask.presentationOptions = {
+            reveal: TaskRevealKind.Silent,
+        };
 
-    await tasks.executeTask(task);
+        // Execute the model download task
+        await tasks.executeTask(downloadModelTask);
+    } catch (error) {
+        window.showErrorMessage(error.message);
+    }
 }
 
 async function startLLamaServer(context: ExtensionContext, port: number) {
@@ -90,7 +120,7 @@ async function startLLamaServer(context: ExtensionContext, port: number) {
         TaskScope.Workspace,
         'starting server',
         'setup',
-        new ShellExecution(context.asAbsolutePath('src/llamafile.exe') + ' -m ' + context.asAbsolutePath(`src/llava-phi-3-mini-int4.gguf`) + " --mmproj " + context.asAbsolutePath(`src/llava-phi-3-mini-mmproj-f16.gguf`) + ` -c 4096 --nobrowser --port ${port}`)
+        new ShellExecution(context.asAbsolutePath('script/llamafile.exe') + ' -m ' + context.asAbsolutePath(`script/llava-phi-3-mini-int4.gguf`) + " --mmproj " + context.asAbsolutePath(`script/llava-phi-3-mini-mmproj-f16.gguf`) + ` -c 4096 --nobrowser --port ${port}`)
     );
     task.presentationOptions = {
         reveal: TaskRevealKind.Silent,

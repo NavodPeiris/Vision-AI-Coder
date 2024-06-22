@@ -1,6 +1,6 @@
 {
 	"compilerOptions": {
-		"module": "commonjs",
+		"module": "Node16",
 		"target": "es6",
 		"outDir": "dist",
 		"lib": [
@@ -21,7 +21,8 @@
 		"importHelpers": false,
 		"typeRoots": [
 			"node_modules/@types"
-		]
+		],
+		"moduleResolution":"Node16"
 	},
 	"exclude": [
 		"node_modules",
