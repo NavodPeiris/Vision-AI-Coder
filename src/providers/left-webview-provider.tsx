@@ -4,7 +4,7 @@ import LeftPanel from 'components/LeftPanel';
 import * as ReactDOMServer from "react-dom/server";
 import * as vscode from 'vscode';
 
-async function codeLlama(instruction: string, port: number, imagePath: string, sendText: (text: string) => void) {
+async function codeLlama(postMessage: any, instruction: string, port: number, imagePath: string, sendText: (text: string) => void) {
     const { llamacpp, streamText } = await import('modelfusion');
     const fs = await import('fs');
     const {readChunk} = await import('read-chunk');
@@ -14,29 +14,30 @@ async function codeLlama(instruction: string, port: number, imagePath: string, s
     var image: any;
     var textStream: any;
     
-    try {
-        const buffer = await readChunk(imagePath, {length: minimumBytes});
-        const fileType = await imageType.default(buffer)
-        if (!fileType || !fileType.mime.startsWith('image/')) {
-            vscode.window.showErrorMessage('The selected file is not a valid image. please select an image file.');
+    if(imagePath){
+        try {
+            const buffer = await readChunk(imagePath, {length: minimumBytes});
+            const fileType = await imageType.default(buffer)
+            if (!fileType || !fileType.mime.startsWith('image/')) {
+                vscode.window.showErrorMessage('The selected file is not a valid image. please select an image file.');
+                return;
+            }
+        } catch (err) {
+            console.log(err);
+            vscode.window.showErrorMessage('An error occurred while reading the file. please check if the file path is correct and make sure absolute file path is given. make sure not to include any quotation marks.');
             return;
         }
-    } catch (err) {
-        console.log(err);
-        vscode.window.showErrorMessage('An error occurred while reading the file. please check if the file path is correct and make sure absolute file path is given. make sure not to include any quotation marks.');
-        return;
+    
+        try {
+            image = fs.readFileSync(imagePath);
+        } catch (err) {
+            console.log(err);
+            vscode.window.showErrorMessage('An error occurred while reading the file. please check if the file path is correct and make sure absolute file path is given. make sure not to include any quotation marks.');
+            return;
+        }
+    
+        console.log('The file is a valid image.');
     }
-
-    try {
-        image = fs.readFileSync(imagePath);
-    } catch (err) {
-        console.log(err);
-        vscode.window.showErrorMessage('An error occurred while reading the file. please check if the file path is correct and make sure absolute file path is given. make sure not to include any quotation marks.');
-        return;
-    }
-
-    // Your code to handle the image goes here
-    console.log('The file is a valid image.');
     
     const api = llamacpp.Api({
         baseUrl: {
@@ -44,6 +45,8 @@ async function codeLlama(instruction: string, port: number, imagePath: string, s
           port: `${port}`,
         },
     });
+
+    postMessage({ command: 'startChat', text: instruction });
 
     if(image){
         textStream = await streamText({
@@ -165,8 +168,7 @@ export class LeftPanelWebview implements WebviewViewProvider {
                     break;
 				case 'question':
 					console.log("this runs1")
-                    this._view.webview.postMessage({ command: 'startChat', text: message.text});
-					await codeLlama(message.text, 4000, message.imagePath,(text: string) => {
+					await codeLlama(this._view.webview.postMessage.bind(this._view.webview), message.text, 4000, message.imagePath,(text: string) => {
 						this._view.webview.postMessage({ command: 'streamAnswer', text });
 					});
 					console.log("this runs2")
