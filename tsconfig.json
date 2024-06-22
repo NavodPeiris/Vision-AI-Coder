@@ -12,7 +12,9 @@
 		"paths" : {
 			"*": ["*"],
 		},
-		"strict": false,   /* enable all strict type-checking options */
+		"strict": false,   /* disable all strict type-checking options */
+		"noEmitOnError": false,  // Allow emitting output even if there are errors
+        "skipLibCheck": true,    // Skip type checking of declaration files
 		"jsx": "react-jsx",
 		"noUnusedParameters": false,  /* Report errors on unused parameters. */
 		"noEmitHelpers": true,
