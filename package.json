@@ -2,7 +2,14 @@
   "name": "vision-ai-coder",
   "displayName": "Vision AI Coder",
   "description": "Offline On-Device AI Assistant and Coder with Visual Question Answering",
-  "publisher": "Navod Peiris",
+  "publisher": "NavodPeiris",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/NavodPeiris/Vision-AI-Coder.git"
+  },
+  "bugs": {
+    "url": "https://github.com/NavodPeiris/Vision-AI-Coder/issues"
+  },
   "version": "0.0.1",
   "engines": {
     "vscode": "^1.64.0"

@@ -7,3 +7,4 @@ dir
 src/*.gguf
 src/*.exe
 .vscode/
+.env
