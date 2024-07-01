@@ -95,8 +95,39 @@ async function codeLlama(postMessage: any, instruction: string, port: number, im
 }
 
 async function downloadModel(context: ExtensionContext) {
-    
+    // Install axios globally
+    const downloadAxiosTask = new Task(
+        { type: 'shell' },
+        TaskScope.Workspace,
+        'downloading axios',
+        'setup',
+        new ShellExecution('npm install -g axios')
+    );
+    downloadAxiosTask.presentationOptions = {
+        reveal: TaskRevealKind.Silent,
+    };
+
+    // Create a promise to await axios installation
+    const axiosTaskPromise = new Promise<void>((resolve, reject) => {
+        const disposable = tasks.onDidEndTaskProcess((e) => {
+            if (e.execution.task === downloadAxiosTask) {
+                disposable.dispose();
+                if (e.exitCode === 0) {
+                    resolve();
+                } else {
+                    reject(new Error('Failed to install axios.'));
+                }
+            }
+        });
+    });
+
+    // Execute the axios installation task
+    await tasks.executeTask(downloadAxiosTask);
+
+    // Wait for axios installation to complete
     try {
+        await axiosTaskPromise;
+
         // Download the model
         const downloadModelTask = new Task(
             { type: 'shell' },
@@ -115,6 +146,7 @@ async function downloadModel(context: ExtensionContext) {
         window.showErrorMessage(error.message);
     }
 }
+
 
 async function startLLamaServer(context: ExtensionContext, port: number) {
     const task = new Task(

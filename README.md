@@ -18,6 +18,11 @@ this extension uses llamafile for running GGUF formated models which are fast an
 
 you can run inference on a cpu with only 8gb of ram.
 
+#### Requirements:
+
+1. NodeJS installed and added to PATH
+2. Computer with 8GB Ram
+
 #### How to Use:
 
 1. Click on the extension icon
