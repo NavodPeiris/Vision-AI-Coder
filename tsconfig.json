@@ -18,7 +18,7 @@
 		"jsx": "react-jsx",
 		"noUnusedParameters": false,  /* Report errors on unused parameters. */
 		"noEmitHelpers": true,
-		"importHelpers": false,
+		"importHelpers": true,
 		"typeRoots": [
 			"node_modules/@types"
 		],
