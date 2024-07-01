@@ -1,8 +1,7 @@
 import { WebviewViewProvider, WebviewView, Webview, Uri, EventEmitter, window, ExtensionContext, Task, TaskScope, ShellExecution, TaskRevealKind, tasks} from "vscode";
 import { Utils } from "utils";
 import LeftPanel from 'components/LeftPanel';
-import * as ReactDOMServer from "react-dom/server";
-import * as vscode from 'vscode';
+import {renderToString} from "react-dom/server";
 
 async function codeLlama(postMessage: any, instruction: string, port: number, imagePath: string, sendText: (text: string) => void) {
     const { llamacpp, streamText } = await import('modelfusion');
@@ -17,14 +16,14 @@ async function codeLlama(postMessage: any, instruction: string, port: number, im
     if(imagePath){
         try {
             const buffer = await readChunk(imagePath, {length: minimumBytes});
-            const fileType = await imageType.default(buffer)
+            const fileType = await imageType.default(buffer);
             if (!fileType || !fileType.mime.startsWith('image/')) {
-                vscode.window.showErrorMessage('The selected file is not a valid image. please select an image file.');
+                window.showErrorMessage('The selected file is not a valid image. please select an image file.');
                 return;
             }
         } catch (err) {
             console.log(err);
-            vscode.window.showErrorMessage('An error occurred while reading the file. please check if the file path is correct and make sure absolute file path is given. make sure not to include any quotation marks.');
+            window.showErrorMessage('An error occurred while reading the file. please check if the file path is correct and make sure absolute file path is given. make sure not to include any quotation marks.');
             return;
         }
     
@@ -32,7 +31,7 @@ async function codeLlama(postMessage: any, instruction: string, port: number, im
             image = fs.readFileSync(imagePath);
         } catch (err) {
             console.log(err);
-            vscode.window.showErrorMessage('An error occurred while reading the file. please check if the file path is correct and make sure absolute file path is given. make sure not to include any quotation marks.');
+            window.showErrorMessage('An error occurred while reading the file. please check if the file path is correct and make sure absolute file path is given. make sure not to include any quotation marks.');
             return;
         }
     
@@ -167,11 +166,11 @@ export class LeftPanelWebview implements WebviewViewProvider {
 					startLLamaServer(this.context, 4000);
                     break;
 				case 'question':
-					console.log("this runs1")
+					console.log("this runs1");
 					await codeLlama(this._view.webview.postMessage.bind(this._view.webview), message.text, 4000, message.imagePath,(text: string) => {
 						this._view.webview.postMessage({ command: 'streamAnswer', text });
 					});
-					console.log("this runs2")
+					console.log("this runs2");
 					break;
 				default:
 					break;
@@ -221,10 +220,13 @@ export class LeftPanelWebview implements WebviewViewProvider {
                 <body>
                     ${
                         
-                        ReactDOMServer.renderToString((
+                        renderToString((
 							<LeftPanel></LeftPanel>
 						))
                     }
+                    <script nonce="${nonce}" type="text/javascript">
+                        var __importDefault = (this && this.__importDefault) || function (mod) { return (mod && mod.__esModule) ? mod : { "default": mod }; }
+                    </script>
 					<script nonce="${nonce}" type="text/javascript" src="${constantUri}"></script>
 					<script nonce="${nonce}" src="${scriptUri}"></script>
 				</body>

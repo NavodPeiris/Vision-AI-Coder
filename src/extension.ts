@@ -3,15 +3,15 @@ try {
 } catch (e) {
 	console.log("module-alias import error !");
 }
-import * as vscode from "vscode";
+import {ExtensionContext, commands, window} from "vscode";
 import { EXTENSION_CONSTANT } from "constant";
 import { LeftPanelWebview } from "providers/left-webview-provider";
 
-export function activate(context: vscode.ExtensionContext) {
-	let helloWorldCommand = vscode.commands.registerCommand(
+export function activate(context: ExtensionContext) {
+	let helloWorldCommand = commands.registerCommand(
 		"visionAICoder.helloWorld",
 		() => {
-			vscode.window.showInformationMessage(
+			window.showInformationMessage(
 				"Hello World from Vision AI Coder on VSCode!"
 			);
 		}
@@ -21,7 +21,7 @@ export function activate(context: vscode.ExtensionContext) {
 
 	// Register view
 	const leftPanelWebViewProvider = new LeftPanelWebview(context, context?.extensionUri, {});
-	let view = vscode.window.registerWebviewViewProvider(
+	let view = window.registerWebviewViewProvider(
 		EXTENSION_CONSTANT.LEFT_PANEL_WEBVIEW_ID,
 		leftPanelWebViewProvider,
 	);
