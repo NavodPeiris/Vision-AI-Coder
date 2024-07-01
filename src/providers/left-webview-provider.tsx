@@ -133,7 +133,7 @@ async function startLLamaServer(context: ExtensionContext, port: number) {
 
 export class LeftPanelWebview implements WebviewViewProvider {
 	constructor(
-		private readonly context: vscode.ExtensionContext,
+		private readonly context: ExtensionContext,
 		private readonly extensionPath: Uri,
 		private data: any,
 		private _view: any = null
