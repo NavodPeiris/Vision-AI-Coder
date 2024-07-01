@@ -101,7 +101,7 @@ async function downloadModel(context: ExtensionContext) {
         TaskScope.Workspace,
         'downloading axios',
         'setup',
-        new ShellExecution('npm install -g axios')
+        new ShellExecution('npm install axios')
     );
     downloadAxiosTask.presentationOptions = {
         reveal: TaskRevealKind.Silent,

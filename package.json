@@ -11,7 +11,7 @@
   "bugs": {
     "url": "https://github.com/NavodPeiris/Vision-AI-Coder/issues"
   },
-  "version": "0.0.15",
+  "version": "0.0.16",
   "engines": {
     "vscode": "^1.64.0"
   },
