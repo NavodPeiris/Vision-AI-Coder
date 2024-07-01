@@ -134,7 +134,7 @@ async function startLLamaServer(context: ExtensionContext, port: number) {
 
 export class LeftPanelWebview implements WebviewViewProvider {
 	constructor(
-		private context: any,
+		private readonly context: vscode.ExtensionContext,
 		private readonly extensionPath: Uri,
 		private data: any,
 		private _view: any = null
@@ -150,7 +150,7 @@ export class LeftPanelWebview implements WebviewViewProvider {
 	resolveWebviewView(webviewView: WebviewView): void | Thenable<void> {
 		webviewView.webview.options = {
 			enableScripts: true,
-			localResourceRoots: [this.extensionPath],
+			localResourceRoots: [this.extensionPath]
 		};
 		webviewView.webview.html = this._getHtmlForWebview(webviewView.webview);
 		this._view = webviewView;
